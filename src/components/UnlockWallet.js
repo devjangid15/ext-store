@@ -1,66 +1,91 @@
 /* global chrome */
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaLock } from 'react-icons/fa';
+import {  FaUnlock, FaEye, FaEyeSlash } from 'react-icons/fa';
+import wootzIcon from '../icons/wootz.png'
 
-const UnlockWallet = () => {
+const UnlockWallet = ({ setIsLocked }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    try {
-      const unlockResult = await new Promise((resolve, reject) => {
-        chrome.wootz.unlockWallet(password, (response) => {
-          if (chrome.runtime.lastError) {
-            reject(chrome.runtime.lastError);
-          } else {
-            resolve(response);
-          }
-        });
+  const unlockWalletAsync = (password) => {
+    console.log('Attempting to unlock wallet with password length:', password.length);
+    return new Promise((resolve, reject) => {
+      chrome.wootz.unlockWallet(password, (result) => {
+        if (chrome.runtime.lastError) {
+          reject(chrome.runtime.lastError);
+        } else {
+          resolve(result);
+        }
       });
+    });
+  };
 
-      if (!unlockResult.success) {
-        throw new Error("Failed to unlock wallet");
+  const handleUnlock = async () => {
+    try {
+      const result = await unlockWalletAsync(password);
+      if (result.success) {
+        console.log('Wallet unlocked successfully');
+        setIsLocked(false);
+        navigate('/portfolio');
+      } else {
+        console.error('Failed to unlock wallet:', result.error);
+        setError('Incorrect password');
       }
-
-      navigate('/portfolio');
     } catch (error) {
-      console.error("Error:", error);
-      setError("Invalid password");
+      console.error('Error unlocking wallet:', error);
+      setError('Incorrect password');
     }
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleUnlock();
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-white py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
-        <div>
-          <FaLock className="mx-auto h-12 w-12 text-indigo-500" />
-          <h2 className="mt-6 text-3xl font-extrabold text-white">Unlock Wallet</h2>
-          <p className="mt-2 text-sm text-gray-400">Enter your password to unlock the wallet</p>
+        <div className="text-center">
+          <img
+            src={wootzIcon}
+            alt="Wootz Logo"
+            className="mx-auto h-24 w-24"
+          />
+          <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
+            Unlock <span className="bg-gradient-to-r from-[#FF3B30] to-[#FF8C00] text-transparent bg-clip-text">Wallet</span>
+          </h2>
+          <p className="mt-2 text-sm text-gray-600">Enter your password to unlock the wallet</p>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm -space-y-px">
-            <div>
+          <div className="rounded-md shadow-sm">
+            <div className="relative">
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 required
-                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-700 placeholder-gray-500 text-white bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-[#FF6347] focus:border-[#FF6347] focus:z-10 sm:text-sm pr-10"
                 placeholder="Enter password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+              <button
+                type="button"
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 z-20"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <FaEyeSlash className="text-gray-500" /> : <FaEye className="text-gray-500" />}
+              </button>
             </div>
           </div>
           {error && <p className="text-red-500 text-sm">{error}</p>}
           <div>
             <button
-              type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              onClick={handleUnlock}
+              className="w-full bg-gradient-to-r from-[#FF3B30] via-[#FF6B00] to-[#FF8C00] hover:from-[#FF7F50] hover:to-[#FFB347] text-white font-bold py-2 px-4 rounded flex items-center justify-center shadow-md transition-all duration-200"
             >
-              Unlock
+              <FaUnlock className="mr-2" /> Unlock
             </button>
           </div>
         </form>
