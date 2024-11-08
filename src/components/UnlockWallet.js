@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {  FaUnlock, FaEye, FaEyeSlash } from 'react-icons/fa';
-import wootzIcon from '../icons/wootz.png'
+import wootzIcon from '../assets/wootz.png'
 
 const UnlockWallet = ({ setIsLocked }) => {
   const [password, setPassword] = useState('');

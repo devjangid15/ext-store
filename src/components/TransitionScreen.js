@@ -1,5 +1,5 @@
 import React from 'react';
-import wootzIcon from '../icons/wootz.png';
+import wootzIcon from '../assets/wootz.png';
 
 const TransitionScreen = () => {
   return (

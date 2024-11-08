@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FaEye, FaCopy } from 'react-icons/fa';
-import wootzIcon from '../icons/wootz.png'
+import wootzIcon from '../assets/wootz.png'
 
 const RecoveryPhrase = () => {
   const navigate = useNavigate();

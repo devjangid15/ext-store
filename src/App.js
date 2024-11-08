@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { MemoryRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import CreateWallet from './components/CreateWallet';
+import ChainSelection from './components/ChainSelection';
 import UnlockWallet from './components/UnlockWallet';
 import RecoveryPhrase from './components/RecoveryPhrase';
 import Portfolio from './components/Portfolio';
@@ -76,6 +77,7 @@ function App() {
             })()}
           />
           <Route path="/create" element={<CreateWallet setWalletCreated={setWalletCreated} />} />
+          <Route path="/select-chains" element={<ChainSelection setWalletCreated={setWalletCreated} />} />
           <Route path="/unlock" element={<UnlockWallet setIsLocked={setIsLocked} />} />
           <Route path="/recovery-phrase" element={<RecoveryPhrase />} />
           <Route path="/portfolio" element={<Portfolio setIsLocked={setIsLocked} />} />

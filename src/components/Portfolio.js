@@ -2,7 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import Loading from './Loading';
 import { useNavigate } from 'react-router-dom';
-import { FaCopy, FaSignature, FaEthereum, FaTimes } from 'react-icons/fa';
+import { FaCopy, FaSignature, FaTimes, FaEthereum} from 'react-icons/fa';
+import btcIcon from '../assets/btc.svg'
+import solIcon from '../assets/sol.svg'
 
 const Portfolio = ({ setIsLocked }) => {
   const navigate = useNavigate();
@@ -97,8 +99,8 @@ const Portfolio = ({ setIsLocked }) => {
   const getCoinIcon = (coinType) => {
     switch (coinType) {
       case 60: return <FaEthereum className="text-[#627EEA] h-6 w-6" />;
-      case 1: return 'BTC';
-      case 501: return 'SOL';
+      case 1: return <img src={btcIcon} alt="Bitcoin" className="h-6 w-6" />;
+      case 501: return <img src={solIcon} alt="Solana" className="h-6 w-6" />;
       default: return <span className="text-gray-400">?</span>;
     }
   };
@@ -109,34 +111,25 @@ const Portfolio = ({ setIsLocked }) => {
 
   if (signRequest) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
-        <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-6">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4 rounded-3xl">
+        <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
           <div className="space-y-6">
-            {/* Header */}
             <div>
               <h2 className="text-2xl font-bold text-gray-900">
                 Sign <span className="bg-gradient-to-r from-[#FF3B30] to-[#FF8C00] text-transparent bg-clip-text">Message</span>
               </h2>
               <h3 className="text-xl font-semibold text-gray-900 mt-1">Request</h3>
             </div>
-
-            {/* Message */}
             <p className="text-gray-600">Your signature is being requested</p>
-
-            {/* From */}
             <div className="space-y-2">
               <p className="text-gray-700 font-medium">From: 
                 <span className="text-gray-600 ml-2">{signRequest.origin}</span>
               </p>
             </div>
-
-            {/* Address */}
             <div className="space-y-2">
               <p className="text-gray-700 font-medium">Address:</p>
               <p className="text-gray-600 break-all text-sm">{signRequest.address}</p>
             </div>
-
-            {/* Buttons */}
             <div className="flex space-x-4 pt-4">
               <button
                 onClick={() => handleSignMessage(false)}
@@ -169,7 +162,6 @@ const Portfolio = ({ setIsLocked }) => {
       <div className="flex-grow">
         <h3 className="text-xl font-semibold mb-4 text-gray-800">Accounts</h3>
         {accounts
-          .filter(account => account.coin === 60)
           .map((account, index) => (
             <div key={index} className="bg-white rounded-lg p-4 mb-4 shadow-lg border border-gray-200">
               <div className="flex justify-between items-center mb-2">
