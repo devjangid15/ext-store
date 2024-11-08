@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Wootz Wallet",
   "version": "1.0",
-  "description": "WootzApp Wallet",
+  "description": "Wootzapp Wallet",
   "action": {
     "default_popup": "index.html",
     "default_icon": {

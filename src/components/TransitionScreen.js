@@ -5,7 +5,6 @@ const TransitionScreen = () => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-white px-4">
       <div className="flex flex-col items-center max-w-sm w-full">
-        {/* Logo with pulse animation */}
         <div className="relative mb-8 ml-3">
           <img
             src={wootzIcon}
@@ -19,7 +18,7 @@ const TransitionScreen = () => {
         </h2>
 
         <p className="text-gray-600 text-center text-lg mb-6">
-          Your WootzApp wallet is being created...
+          Your Wootzapp wallet is being created...
         </p>
         <div className="flex items-center space-x-2 text-gray-400">
           <span className="text-sm">Setting up your secure wallet</span>

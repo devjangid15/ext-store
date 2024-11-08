@@ -8,7 +8,7 @@ function SignMessage({ request, onComplete }) {
       chrome.wootz.signMessage(
         request.id,
         approved,
-        null, // signature is null for now
+        null,
         (result) => {
           if (result.success) {
             console.log('Message signed successfully');

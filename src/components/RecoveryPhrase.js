@@ -11,7 +11,6 @@ const RecoveryPhrase = () => {
 
   const handleCopy = () => {
     navigator.clipboard.writeText(recoveryPhrase);
-    alert("Recovery phrase copied to clipboard!");
   };
 
   const handleContinue = () => {
